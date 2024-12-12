@@ -1,7 +1,8 @@
 import json
-from db.models import Task, session
+from db.models import Task, Session
 
 def exportTasks(filepath):
+    session = Session()
     tasks = session.query(Task).all()
     with open(filepath, 'w') as file:
         json.dump([
@@ -10,6 +11,7 @@ def exportTasks(filepath):
         ], file)
 
 def importTasks(filepath):
+    session = Session()
     with open(filepath, 'r') as file:
         tasks = json.load(file)
         for task_data in tasks:

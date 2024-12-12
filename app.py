@@ -1,6 +1,7 @@
 import streamlit as st
 from db.controllers import addTask, getTasks, markTaskCompleted, deleteCompletedTasks
 from utils.file_io import exportTasks, importTasks
+import time
 
 st.title("Gestión de Tareas")
 
@@ -25,13 +26,13 @@ for task in tasks:
     if not task.completed:
         if col3.button("Marcar como completada", key=f"complete-{task.id}"):
             markTaskCompleted(task.id)
-            st.experimental_rerun()
+            st.rerun()
 
 # Eliminar tareas completadas
 if st.button("Eliminar tareas completadas"):
     deleteCompletedTasks()
     st.success("¡Tareas completadas eliminadas con éxito!")
-    st.experimental_rerun()
+    st.rerun()
 
 # Exportar e importar tareas
 st.header("Exportar e importar tareas")
@@ -45,6 +46,7 @@ if st.button("Importar tareas"):
     try:
         importTasks(import_path)
         st.success(f"¡Tareas importadas desde {import_path} con éxito!")
-        st.experimental_rerun()
+        time.sleep(1)
+        st.rerun()
     except Exception as e:
         st.error(f"Error al importar tareas: {e}")
