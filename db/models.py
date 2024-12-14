@@ -1,8 +1,15 @@
 from sqlalchemy import create_engine, Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import os
 
-DATABASE_URL = "mysql+pymysql://root:admin@localhost:3306/taskManagerPython"
+DATABASE_FILE = "taskManagerPython.db"
+DATABASE_URL = f"sqlite:///{DATABASE_FILE}"
+
+db_exists = os.path.exists(DATABASE_FILE)
+
+engine = create_engine(DATABASE_URL, echo=True)
+Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
 class Task(Base):
@@ -12,6 +19,8 @@ class Task(Base):
     description = Column(String(255), nullable=True)
     completed = Column(Boolean, default=False)
 
-engine = create_engine(DATABASE_URL)
-Session = sessionmaker(bind=engine)
-Base.metadata.create_all(engine)
+if not db_exists:
+    Base.metadata.create_all(engine)
+    print(f"Base de datos creada en {DATABASE_FILE}")
+else:
+    print(f"Base de datos existente encontrada en {DATABASE_FILE}")
