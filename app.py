@@ -5,7 +5,6 @@ import time
 
 st.title("Gestión de Tareas")
 
-# Agregar tareas
 st.header("Agregar una nueva tarea")
 title = st.text_input("Título de la tarea")
 description = st.text_area("Descripción de la tarea")
@@ -16,7 +15,6 @@ if st.button("Agregar tarea"):
     else:
         st.error("El título de la tarea es obligatorio.")
 
-# Listar tareas
 tasks = getTasks()
 st.header("Lista de tareas")
 for task in tasks:
@@ -32,13 +30,11 @@ for task in tasks:
             deleteCompletedTask(task.id)        
             st.rerun()
 
-# Eliminar tareas completadas
 if st.button("Eliminar tareas completadas"):
     deleteCompletedTasks()
     st.success("¡Tareas completadas eliminadas con éxito!")
     st.rerun()
 
-# Exportar e importar tareas
 st.header("Exportar e importar tareas")
 export_path = st.text_input("Ruta para exportar las tareas", "tasks.json")
 if st.button("Exportar tareas"):
