@@ -1,5 +1,5 @@
 import streamlit as st
-from db.controllers import addTask, getTasks, markTaskCompleted, deleteCompletedTasks
+from db.controllers import addTask, getTasks, markTaskCompleted, deleteCompletedTask, deleteCompletedTasks
 from utils.file_io import exportTasks, importTasks
 import time
 
@@ -26,6 +26,10 @@ for task in tasks:
     if not task.completed:
         if col3.button("Marcar como completada", key=f"complete-{task.id}"):
             markTaskCompleted(task.id)
+            st.rerun()
+    if task.completed:
+        if col3.button("Eliminar tarea", key=f"complete-{task.id}"):
+            deleteCompletedTask(task.id)        
             st.rerun()
 
 # Eliminar tareas completadas
